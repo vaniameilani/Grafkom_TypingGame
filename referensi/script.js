@@ -305,7 +305,7 @@ var temp = document.querySelector('.time');
   					}
   				}
   			}
-  			var checker = 0;
+  			var checker = 0; 
   			for (var j = 0; j < spans.length; j++) { //checking if all the letters are typed
   				if (spans[j].className === "span bg") {
   					checker++;
