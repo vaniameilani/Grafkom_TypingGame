@@ -6,7 +6,7 @@
 
 ### RENCANA BARU 
 1. Vocabnya di tengah-tengah dan tidak turun ke bawah. `OKE`
-2. Ada 3 level : nanti dipilihin dulu kata-kata vocabnya sesuai dengan levelnya. Semakin tinggi, maka vocabnya semakin susah dan waktunya lebih kecil dibanding level sebelumnya.
+2. Ada 3 level : nanti dipilihin dulu kata-kata vocabnya sesuai dengan levelnya. Semakin tinggi levelnya, maka vocabnya semakin susah/panjang dan waktunya lebih kecil dibanding level sebelumnya.
 3. Terdapat tombol **START** untuk memulai permainan. `OKE`
 
 ### PERUBAHAN
