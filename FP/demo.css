@@ -86,7 +86,7 @@ h3 {
 	color: #bba077;
 }
 
-.center {
+/* .center {
 	line-height: 200px;
 	height: 200px;
 }
@@ -100,7 +100,7 @@ h2 {
 	display: inline-block;
 	vertical-align: middle;
 	color:whitesmoke;
-}
+} */
 
 .meta::after {
 	content: '';
