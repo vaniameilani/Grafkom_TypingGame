@@ -86,6 +86,22 @@ h3 {
 	color: #bba077;
 }
 
+.center {
+	line-height: 200px;
+	height: 200px;
+}
+
+h2 {
+	line-height: 1.5;
+	font-size: 45px;
+	margin-top: 200px;
+	text-align: center;
+	font-weight: bold;
+	display: inline-block;
+	vertical-align: middle;
+	color:whitesmoke;
+}
+
 .meta::after {
 	content: '';
 	position: absolute;
