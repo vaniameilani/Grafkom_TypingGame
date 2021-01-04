@@ -1,20 +1,44 @@
 var words = document.querySelector(".words");
+
 var scoreDiv = document.querySelector("#score");
-var levelId = document.querySelector("#level");
+var timerDiv = document.querySelector("#time");
+var levelId  = document.querySelector("#level");
+
+var temp = document.querySelector("#time");
 // var button = document.querySelector("button");
 
 var points = 0;
 
 var spans;
 var typed;
+var timer;
 
 var level = [3, 5, 10];
+var levelTime = [15, 20, 30];
 var count = 0;
 var currentLevel = 0;
+var currentTime = levelTime[currentLevel];
+
+timerDiv.innerHTML = currentTime;
 
 function getNumber() {
     var number = Math.floor(Math.random() * (20 - 0 + 1)) + 0;
     return number;
+}
+
+function countdown() {
+    
+    timer = setInterval(function(){
+
+        currentTime--;
+        temp.innerHTML = currentTime;
+
+        if (currentTime === 0) {
+            alert("Times up!");
+            clearInterval(timer);
+        }
+    }, 1000);
+
 }
 
 function random() {
@@ -54,7 +78,7 @@ const list = [ 'ACCOUNT','ACCURATE','ACRES','ACROSS','ACT','ACTION','ACTIVE','AC
 var flag = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
 
 // button.addEventListener("click", function(e){
-//     countdown();
+    countdown();
     random();
 //     button.disabled = true;
     	
@@ -95,21 +119,48 @@ function typing(e) {
             points++; // increment the points
             scoreDiv.innerHTML = points; //add points to the points div
             count++;
-            console.log(count);
+            // console.log(count);
 
             if (count==level[currentLevel]) {
                 words.innerHTML = "LEVEL " + (currentLevel + 1) + " COMPLETED";
                 
                 currentLevel++;
+                // points = points + currentTime;
+                // console.log(points + currentTime);
+
+                t = 240*currentTime;
+                animations = 120*currentTime;                
+
+                var scoreTimer = setInterval(function(){
+
+                    points++;
+                    scoreDiv.innerHTML = points;
+                    
+                    currentTime--;
+                    temp.innerHTML = currentTime;
+
+                    if (currentTime === 0) {
+                        clearInterval(scoreTimer);
+                    }
+
+                }, 100);
+
+                // console.log(points);
+                clearInterval(timer);
                 // levelId.innerHTML = (currentLevel + 1);
 
                 count = 0;
 
-                t = 2000;
-                animations = 1000;
+                // t = 2000;
+                // animations = 1000;
 
                 setTimeout(function(){
                     levelId.innerHTML = (currentLevel + 1);
+
+                    currentTime = levelTime[currentLevel];
+                    timerDiv.innerHTML = currentTime;
+
+                    countdown();
                 }, t);                
             }
             // else {
