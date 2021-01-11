@@ -13,8 +13,8 @@ var spans;
 var typed;
 var timer;
 
-var level = [3, 5, 10];
-var levelTime = [15, 20, 30];
+var level = [3, 5, 10, 17, 26];
+var levelTime = [15, 20, 30, 45, 65];
 var count = 0;
 var currentLevel = 0;
 var currentTime = levelTime[currentLevel];
