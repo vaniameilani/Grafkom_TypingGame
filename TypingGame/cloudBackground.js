@@ -21,6 +21,8 @@ var HEIGHT, WIDTH,
     mousePos = { x: 0, y: 0 };
 
 var clouds = [];
+var group1 = new THREE.Group();
+var group2 = new THREE.Group();
 
 var ambientLight, hemisphereLight, shadowLight;
 
@@ -103,34 +105,64 @@ function handleWindowResize() {
 Sky = function(){
 
     this.nClouds = 15;
-    var index = 0;
+    // var index = 0;
     // var stepAngle = Math.PI*2 / this.nClouds;
 
 
     for (var i = 0; i < this.nClouds; i++) { 
         let loader = new THREE.GLTFLoader();
-        loader.load('./assets/scene.gltf', function(gltf){
+        loader.load('assets/scene.gltf', function(gltf){
             cloud = gltf.scene.children[0];
-
-            // var a = stepAngle*i;
-            // var h = 750 + Math.random()*200;
-
-            // cloud.position.y = Math.sin(a)*h;
-            // cloud.position.x = Math.cos(a)*h;
-            // cloud.position.z = -400-Math.random()*400;
-            // // c.rotation.z = a + Math.PI/2;
 
             cloud.position.y = -200+Math.random()*(HEIGHT-300);
             cloud.position.x = -800+Math.random()*WIDTH;
             cloud.position.z = -400-Math.random()*200;
+
+            // c[i].position.y = -200+Math.random()*(HEIGHT-300);
+            // c[i].position.x = -800+Math.random()*WIDTH;
+            // c[i].position.z = -400-Math.random()*200;
            
             var s = 1+Math.random()*3;
             cloud.scale.set(s,s,s);
 
-            scene.add(cloud);
+            group1.add(cloud);
+        });
+
+    }
+
+    for (var i = 0; i < this.nClouds; i++) { 
+        let loader = new THREE.GLTFLoader();
+        loader.load('assets/scene.gltf', function(gltf){
+            cloud = gltf.scene.children[0];
+            // c[i] = cloud;
+            // console.log(c[i]);
+
+            cloud.position.y = -200+Math.random()*(HEIGHT-300);
+            cloud.position.x = -800+Math.random()*WIDTH;
+            cloud.position.z = -400-Math.random()*200;
+
+            // c[i].position.y = -200+Math.random()*(HEIGHT-300);
+            // c[i].position.x = -800+Math.random()*WIDTH;
+            // c[i].position.z = -400-Math.random()*200;
+           
+            var s = 1+Math.random()*3;
+            cloud.scale.set(s,s,s);
+
+            // group1.add(cloud);
+            group2.add(cloud);
 
         });
+
     }
+
+    scene.add(group1);
+
+    group2.position.x = window.innerWidth;
+    scene.add(group2);
+
+    // console.log(group1.position.x);
+
+    // console.log(c[0]);
 
 }
 
@@ -191,6 +223,21 @@ function loop(){
 
     renderer.render(scene, camera);
     requestAnimationFrame(loop);
+
+    group1.position.x -= 1;
+    group2.position.x -= 1;
+
+
+    if (group1.position.x === -(window.innerWidth)) {
+        console.log("udah ujung" + group1.position.x);
+        // createSky();
+        group1.position.x = window.innerWidth + 100;
+    }
+    if (group2.position.x === -(window.innerWidth)) {
+        console.log("udah ujung" + group2.position.x);
+        // createSky();
+        group2.position.x = window.innerWidth + 100;
+    }
 }
 
 function normalize( v, vmin, vmax, tmin, tmax ){
