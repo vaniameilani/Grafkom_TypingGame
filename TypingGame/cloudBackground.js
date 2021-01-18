@@ -164,8 +164,157 @@ Sun = function(){
 	this.mesh.add(sun);
 }
 
+Tree = function () {
+
+	this.mesh = new THREE.Object3D();
+
+	var matTreeLeaves = new THREE.MeshPhongMaterial( { color:Colors.green, shading:THREE.FlatShading});
+
+	var geonTreeBase = new THREE.BoxGeometry( 10,20,10 );
+	var matTreeBase = new THREE.MeshBasicMaterial( { color:Colors.brown});
+	var treeBase = new THREE.Mesh(geonTreeBase,matTreeBase);
+	treeBase.castShadow = true;
+	treeBase.receiveShadow = true;
+	this.mesh.add(treeBase);
+
+	var geomTreeLeaves1 = new THREE.CylinderGeometry(1, 12*3, 12*3, 4 );
+	var treeLeaves1 = new THREE.Mesh(geomTreeLeaves1,matTreeLeaves);
+	treeLeaves1.castShadow = true;
+	treeLeaves1.receiveShadow = true;
+	treeLeaves1.position.y = 20
+	this.mesh.add(treeLeaves1);
+
+	var geomTreeLeaves2 = new THREE.CylinderGeometry( 1, 9*3, 9*3, 4 );
+	var treeLeaves2 = new THREE.Mesh(geomTreeLeaves2,matTreeLeaves);
+	treeLeaves2.castShadow = true;
+	treeLeaves2.position.y = 40;
+	treeLeaves2.receiveShadow = true;
+	this.mesh.add(treeLeaves2);
+
+	var geomTreeLeaves3 = new THREE.CylinderGeometry( 1, 6*3, 6*3, 4);
+	var treeLeaves3 = new THREE.Mesh(geomTreeLeaves3,matTreeLeaves);
+	treeLeaves3.castShadow = true;
+	treeLeaves3.position.y = 55;
+	treeLeaves3.receiveShadow = true;
+	this.mesh.add(treeLeaves3);
+
+}
+
+Flower = function () {
+
+	this.mesh = new THREE.Object3D();
+
+	var geomStem = new THREE.BoxGeometry( 5,50,5,1,1,1 );
+	var matStem = new THREE.MeshPhongMaterial( { color:Colors.green, shading:THREE.FlatShading});
+	var stem = new THREE.Mesh(geomStem,matStem);
+	stem.castShadow = false;
+	stem.receiveShadow = true;
+	this.mesh.add(stem);
+
+
+	var geomPetalCore = new THREE.BoxGeometry(10,10,10,1,1,1);
+	var matPetalCore = new THREE.MeshPhongMaterial({color:Colors.yellow, shading:THREE.FlatShading});
+	petalCore = new THREE.Mesh(geomPetalCore, matPetalCore);
+	petalCore.castShadow = false;
+	petalCore.receiveShadow = true;
+
+	var petalColor = petalColors [Math.floor(Math.random()*3)];
+
+	var geomPetal = new THREE.BoxGeometry( 15,20,5,1,1,1 );
+	var matPetal = new THREE.MeshBasicMaterial( { color:petalColor});
+	geomPetal.vertices[5].y-=4;
+	geomPetal.vertices[4].y-=4;
+	geomPetal.vertices[7].y+=4;
+	geomPetal.vertices[6].y+=4;
+	geomPetal.translate(12.5,0,3);
+
+		var petals = [];
+		for(var i=0; i<4; i++){	
+
+			petals[i]=new THREE.Mesh(geomPetal,matPetal);
+			petals[i].rotation.z = i*Math.PI/2;
+			petals[i].castShadow = true;
+			petals[i].receiveShadow = true;
+		}
+
+	petalCore.add(petals[0],petals[1],petals[2],petals[3]);
+	petalCore.position.y = 25;
+	petalCore.position.z = 3;
+	this.mesh.add(petalCore);
+
+}
+
+var petalColors = [Colors.red, Colors.yellow, Colors.blue];
+
+Forest = function(){
+
+	this.mesh = new THREE.Object3D();
+
+	// Number of Trees
+	this.nTrees = 300;
+
+	// Space the consistenly
+	var stepAngle = Math.PI*2 / this.nTrees;
+
+	// Create the Trees
+
+	for(var i=0; i<this.nTrees; i++){
+	
+		var t = new Tree();
+
+		//set rotation and position using trigonometry
+		var a = stepAngle*i;
+		// this is the distance between the center of the axis and the tree itself
+		var h = 605;
+		t.mesh.position.y = Math.sin(a)*h;
+		t.mesh.position.x = Math.cos(a)*h;		
+
+		// rotate the tree according to its position
+		t.mesh.rotation.z = a + (Math.PI/2)*3;
+
+		//Andreas Trigo funtime
+		//t.mesh.rotation.z = Math.atan2(t.mesh.position.y, t.mesh.position.x)-Math.PI/2;
+
+		// random depth for the tree on the z-axis
+		t.mesh.position.z = 0-Math.random()*600;
+
+		// random scale for each tree
+		var s = .3+Math.random()*.75;
+		t.mesh.scale.set(s,s,s);
+
+		this.mesh.add(t.mesh);
+	}
+
+	// Number of Trees
+	this.nFlowers = 350;
+
+	var stepAngle = Math.PI*2 / this.nFlowers;
+
+
+	for(var i=0; i<this.nFlowers; i++){	
+
+		var f = new Flower();
+		var a = stepAngle*i;
+
+		var h = 605;
+		f.mesh.position.y = Math.sin(a)*h;
+		f.mesh.position.x = Math.cos(a)*h;		
+
+		f.mesh.rotation.z = a + (Math.PI/2)*3;
+
+		f.mesh.position.z = 0-Math.random()*600;
+
+		var s = .1+Math.random()*.3;
+		f.mesh.scale.set(s,s,s);
+
+		this.mesh.add(f.mesh);
+	}
+
+}
+
 // 3D Models
 var sea;
+var forest;
 
 
 function createSea(){
@@ -186,6 +335,12 @@ function createSun(){
 	sun.mesh.position.set(0,-30,-850);
 	scene.add(sun.mesh);
 }
+
+function createForest(){
+    forest = new Forest();
+    forest.mesh.position.y = offSet;
+    scene.add(forest.mesh);
+  }
 
 function loop(){
 

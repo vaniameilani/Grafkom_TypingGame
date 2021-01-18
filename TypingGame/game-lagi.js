@@ -1,5 +1,5 @@
 var words = document.querySelector(".words");
-
+var button = document.querySelector("button");
 var scoreDiv = document.querySelector("#score");
 var timerDiv = document.querySelector("#time");
 var levelId  = document.querySelector("#level");
@@ -13,8 +13,10 @@ var spans;
 var typed;
 var timer;
 
-var level = [3, 5, 10, 17, 26];
-var levelTime = [15, 20, 30, 45, 65];
+var level = 
+[3, 5, 10, 17, 26, 37, 50, 65, 82, 90];
+var levelTime = 
+[15, 20, 30, 45, 50, 60, 75, 85, 95, 100];
 var count = 0;
 var currentLevel = 0;
 var currentTime = levelTime[currentLevel];
@@ -29,13 +31,16 @@ function getNumber() {
 function countdown() {
     
     timer = setInterval(function(){
-
+        button.disabled = true;
         currentTime--;
         temp.innerHTML = currentTime;
 
         if (currentTime === 0) {
             alert("Times up!");
+            alert("Your score is " + points);
+            button.disabled = false;
             clearInterval(timer);
+            button.disabled = false;
         }
     }, 1000);
 
@@ -320,12 +325,12 @@ for ( var i = 0; i < list.length; i++ ) {
     flag[i] = 0;
 }
 
-// button.addEventListener("click", function(e){
+ button.addEventListener("click", function(e){
     countdown();
     random();
-//     button.disabled = true;
+    button.disabled = true;
     	
-// });
+ });
 
 function typing(e) {
 
